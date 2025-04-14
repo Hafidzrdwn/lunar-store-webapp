@@ -2,6 +2,9 @@
 
 $routes = [
   '/' => 'landing.php',
+  '/aboutus' => 'aboutus.php',
+  '/register' => 'client/auth/register.php',
+  '/login' => 'client/auth/login.php',
 ];
 
 $request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
