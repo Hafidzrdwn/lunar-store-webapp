@@ -65,6 +65,11 @@ function deleteData($table, $column, $value)
   return mysqli_affected_rows($conn);
 }
 
+function sanitizeInput($input)
+{
+  return htmlspecialchars(strip_tags(trim($input)), ENT_QUOTES, 'UTF-8');
+}
+
 // function generateCode($table, $field, $char)
 // {
 //   global $conn;

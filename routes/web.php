@@ -8,9 +8,11 @@ $request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $request_uri = str_replace('/lunar_store', '', $request_uri);
 
 $page = $routes[$request_uri] ?? '404.php';
+$page_file = BASE_PATH . '/views/' . $page;
 
-if (file_exists(BASE_PATH . '/views/' . $page)) {
-  require BASE_PATH . '/views/' . $page;
+if (!file_exists($page_file) || strpos(realpath($page_file), realpath(BASE_PATH . '/views/')) !== 0) {
+  View::render('404.php');
+  exit;
 } else {
-  require BASE_PATH . '/views/404.php';
+  View::render($page);
 }

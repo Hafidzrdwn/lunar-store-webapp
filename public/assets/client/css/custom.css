@@ -1,0 +1,26 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  scroll-behavior: smooth;
+}
+
+.lunar-text {
+  font-family: 'Righteous', cursive;
+  color: #004aad;
+  letter-spacing: 1px;
+}
+
+.text-righteous {
+  font-family: 'Righteous', cursive;
+}
+
+.text-playfair {
+  font-family: 'Playfair Display', serif;
+}
+
+button {
+  cursor: pointer;
+}

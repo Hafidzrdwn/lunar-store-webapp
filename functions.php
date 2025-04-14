@@ -21,3 +21,9 @@ function redirect($path)
   header("Location: $url", true);
   exit();
 }
+
+function component($component, $data = [])
+{
+  extract($data);
+  include BASE_PATH . "/views/includes/{$component}.php";
+}
