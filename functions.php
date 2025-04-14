@@ -27,3 +27,9 @@ function component($component, $data = [])
   extract($data);
   include BASE_PATH . "/views/includes/{$component}.php";
 }
+
+function current_url()
+{
+  $url = str_replace('/lunar_store', '', $_SERVER['REQUEST_URI']);
+  return parse_url($url, PHP_URL_PATH);
+}
