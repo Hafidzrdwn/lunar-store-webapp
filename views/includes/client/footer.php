@@ -2,12 +2,12 @@
   <div class="container px-4 mx-auto sm:px-6 lg:px-14">
     <div class="grid gap-8 md:grid-cols-4">
       <div>
-        <a href="index.html" class="flex items-center gap-3 mb-3">
+        <a href="<?= site_url('/'); ?>" class="flex items-center gap-3 mb-3">
           <img src="<?= public_path('assets/client/images/logo.png'); ?>" alt="Logo Lunar Store" width="45" />
           <span class="text-white font-bold text-[20px] text-righteous uppercase">Lunar Store</span>
         </a>
-        <p class="mb-4 text-gray-400">
-          Premium digital products for modern businesses.
+        <p class="my-6 text-gray-300">
+          Premium digital products for modern businesses and lifestyle.
         </p>
         <div class="flex items-center space-x-4">
           <a
@@ -65,7 +65,7 @@
 
       <div>
         <h3 class="mb-4 text-lg font-semibold">Products</h3>
-        <ul class="space-y-4">
+        <ul class="space-y-6">
           <li>
             <a
               href="#"
@@ -88,7 +88,7 @@
 
       <div>
         <h3 class="mb-4 text-lg font-semibold">Company</h3>
-        <ul class="space-y-4">
+        <ul class="space-y-6">
           <li>
             <a
               href="<?= site_url('/aboutus'); ?>"
@@ -104,7 +104,7 @@
 
       <div>
         <h3 class="mb-4 text-lg font-semibold">Authentication</h3>
-        <ul class="space-y-4">
+        <ul class="space-y-6">
           <li>
             <a
               href="<?= site_url('/login'); ?>"
@@ -119,7 +119,7 @@
       </div>
     </div>
     <div
-      class="pt-8 mt-12 text-center text-gray-400 border-t border-gray-800">
+      class="pt-8 mt-12 text-center text-white border-t border-gray-800">
       <p>&copy; <?= date('Y'); ?> Lunar Store. All rights reserved.</p>
     </div>
   </div>

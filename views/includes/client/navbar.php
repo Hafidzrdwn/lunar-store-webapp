@@ -1,3 +1,10 @@
+<?php
+function is_active($uri)
+{
+  return current_url() === $uri ? 'text-blue-600 font-semibold' : 'text-gray-700';
+}
+?>
+
 <!-- Navigation -->
 <nav class="sticky top-0 z-50 bg-white border-b border-gray-100">
   <div class="container px-4 py-2 mx-auto sm:px-6 lg:px-14">
@@ -11,10 +18,10 @@
       <div class="items-center hidden space-x-8 md:flex mobileMenu">
         <a
           href="<?= site_url('/'); ?>"
-          class="text-blue-600 transition-colors hover:text-blue-600">Home</a>
+          class="<?= is_active('/'); ?> transition-colors hover:text-blue-600">Home</a>
         <a
           href="<?= site_url('/aboutus'); ?>"
-          class="text-gray-700 transition-colors hover:text-blue-600">About Us</a>
+          class="<?= is_active('/aboutus'); ?> transition-colors hover:text-blue-600">About Us</a>
         <a
           href="#testimonials"
           class="text-gray-700 transition-colors hover:text-blue-600">Testimonials</a>
