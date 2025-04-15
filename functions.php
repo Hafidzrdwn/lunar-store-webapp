@@ -33,3 +33,9 @@ function current_url()
   $url = str_replace('/lunar_store', '', $_SERVER['REQUEST_URI']);
   return parse_url($url, PHP_URL_PATH);
 }
+
+function is_auth()
+{
+  if (!isset($_SESSION['isLogin'])) return false;
+  return $_SESSION['isLogin'] && isset($_SESSION['isLogin']) && $_SESSION['isLogin'] === true;
+}
