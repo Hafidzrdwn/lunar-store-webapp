@@ -24,3 +24,11 @@ body {
 button {
   cursor: pointer;
 }
+
+.dropdown-menu {
+  display: none;
+}
+
+.dropdown.active .dropdown-menu {
+  display: block;
+}

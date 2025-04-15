@@ -78,6 +78,20 @@
           }
         });
       }
+      // Toggle dropdown menu
+      const profileDropdown = document.getElementById('profileDropdown');
+      const dropdown = document.querySelector('.dropdown');
+
+      profileDropdown.addEventListener('click', function() {
+        dropdown.classList.toggle('active');
+      });
+
+      // Close dropdown when clicking outside
+      window.addEventListener('click', function(event) {
+        if (!dropdown.contains(event.target)) {
+          dropdown.classList.remove('active');
+        }
+      });
     });
   </script>
   <?php View::yield('custom_js'); ?>

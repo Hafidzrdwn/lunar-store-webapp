@@ -1,11 +1,21 @@
 <?php
+session_start();
+// unset($_SESSION['isLogin']);
+$_SESSION['isLogin'] = true;
 
 $routes = [
-  '/' => 'landing.php',
+  '/' => (is_auth() ? 'client/home.php' : 'landing.php'),
   '/aboutus' => 'aboutus.php',
   '/register' => 'client/auth/register.php',
   '/login' => 'client/auth/login.php',
 ];
+
+
+// echo '<pre>';
+// print_r($routes);
+// echo '</pre>';
+// die;
+
 
 $request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $request_uri = str_replace('/lunar_store', '', $request_uri);
