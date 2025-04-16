@@ -5,18 +5,18 @@ Login
 
 <?php View::startSection('content'); ?>
 <section class="flex flex-col md:flex-row h-screen">
-  <!-- Background image - hidden on mobile -->
-  <div class="hidden lg:block w-full md:w-1/2 xl:w-2/3 h-screen">
+  <!-- Background image - hidden on mobile, fixed on larger screens -->
+  <div class="hidden lg:block w-full md:w-1/2 xl:w-2/3 h-screen fixed left-0 top-0">
     <img
       src="<?= asset('client/images/bg_login_lunar2.png'); ?>"
       alt="Login Background"
       class="w-full h-full object-cover" />
   </div>
 
-  <!-- Login form container -->
-  <div class="bg-white w-full md:max-w-md lg:max-w-full md:w-1/2 xl:w-1/3 h-screen px-6 lg:px-16 xl:px-12 flex items-center justify-center">
-    <div class="w-full max-w-md">
-      <h1 class="text-xl md:text-2xl font-bold leading-tight mt-6 mb-3">
+  <!-- Login form container - scrollable -->
+  <div class="bg-white w-full md:max-w-md lg:max-w-full md:w-1/2 xl:w-1/3 min-h-screen overflow-y-auto px-6 lg:px-16 xl:px-12 lg:ml-auto">
+    <div class="w-full max-w-md mx-auto py-12">
+      <h1 class="text-xl md:text-2xl font-bold leading-tight mb-3">
         Log in to your account
       </h1>
       <a
@@ -25,17 +25,26 @@ Login
         <span>&laquo; Back To Home</span>
       </a>
 
-      <form class="mt-6" action="" method="POST">
+      <?php if (isset($_SESSION['errors']['login'])): ?>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4" role="alert">
+          <span class="block sm:inline"><?= $_SESSION['errors']['login'][0]; ?></span>
+        </div>
+      <?php endif; ?>
+
+      <form class="mt-6" action="<?= site_url('/modules/client/auth.php'); ?>" method="POST">
         <div>
-          <label class="block text-gray-700" for="username">Username</label>
+          <label class="block text-gray-700" for="email">Email Address</label>
           <input
-            type="text"
-            name="username"
-            id="username"
-            placeholder="Enter Username"
-            class="w-full px-4 py-3 rounded-md mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-            autofocus
-            required />
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Enter Your Email"
+            class="w-full px-4 py-3 rounded-md mt-2 border <?= isset($_SESSION['errors']['email']) ? 'border-red-500' : 'focus:border-blue-500'; ?> focus:bg-white focus:outline-none"
+            value="<?= $_SESSION['old']['email'] ?? ''; ?>"
+            autofocus />
+          <?php if (isset($_SESSION['errors']['email'])): ?>
+            <p class="text-red-500 text-xs italic mt-1"><?= $_SESSION['errors']['email'][0]; ?></p>
+          <?php endif; ?>
         </div>
 
         <div class="mt-4">
@@ -46,16 +55,18 @@ Login
             id="password"
             placeholder="Enter Password"
             minlength="6"
-            class="w-full px-4 py-3 rounded-md mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-            required />
+            class="w-full px-4 py-3 rounded-md mt-2 border <?= isset($_SESSION['errors']['password']) ? 'border-red-500' : 'focus:border-blue-500'; ?> focus:bg-white focus:outline-none" />
+          <?php if (isset($_SESSION['errors']['password'])): ?>
+            <p class="text-red-500 text-xs italic mt-1"><?= $_SESSION['errors']['password'][0]; ?></p>
+          <?php endif; ?>
         </div>
 
-        <div class="mt-2 flex justify-end">
-          <a href="forgot-password.php" class="text-sm text-blue-500 hover:text-blue-700">Forgot Password?</a>
+        <div class="mt-2 text-end">
+          <a href="<?= site_url('/forgot-password'); ?>" class="text-sm text-blue-500 hover:text-blue-700">Forgot Password?</a>
         </div>
 
         <button
-          type="submit"
+          type="submit" name="login"
           class="w-full block bg-blue-500 hover:bg-blue-600 focus:bg-blue-600 text-white font-semibold rounded-lg px-4 py-3 mt-4 text-center">
           Log In
         </button>
@@ -107,4 +118,23 @@ Login
     </div>
   </div>
 </section>
+<?php
+unset($_SESSION['old']);
+unset($_SESSION['errors']);
+View::endSection(); ?>
+
+<?php View::startSection('custom_js'); ?>
+<?php if (isset($_SESSION['success'])): ?>
+  <script>
+    $(document).ready(function() {
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: '<?= $_SESSION['success']; ?>',
+        confirmButtonColor: '#3B82F6'
+      });
+    });
+  </script>
+  <?php unset($_SESSION['success']); ?>
+<?php endif; ?>
 <?php View::endSection(); ?>

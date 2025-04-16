@@ -49,3 +49,34 @@ function rupiahToNumber($number)
 {
   return (int)str_replace(['Rp', '.', ' '], '', $number);
 }
+
+function time_elapsed_string($datetime, $full = false)
+{
+  $now = new DateTime;
+  $ago = new DateTime($datetime);
+  $diff = $now->diff($ago);
+
+  // Create units
+  $units = [
+    'y' => 'year',
+    'm' => 'month',
+    'd' => 'day',
+    'h' => 'hour',
+    'i' => 'minute',
+    's' => 'second',
+  ];
+
+  foreach ($units as $key => &$text) {
+    if ($diff->$key) {
+      $text = $diff->$key . ' ' . $text . ($diff->$key > 1 ? 's' : '');
+    } else {
+      unset($units[$key]);
+    }
+  }
+
+  if (!$full) $units = array_slice($units, 0, 1); // just the first unit
+
+  return $units
+    ? implode(', ', $units) . ' ago'
+    : 'just now';
+}

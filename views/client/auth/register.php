@@ -5,16 +5,16 @@ Register
 
 <?php View::startSection('content'); ?>
 <section class="flex flex-col md:flex-row h-screen">
-  <div class="hidden lg:block w-full md:w-1/2 xl:w-2/3 h-screen">
+  <div class="hidden lg:block w-full md:w-1/2 xl:w-2/3 h-screen fixed left-0 top-0">
     <img
       src="<?= asset('client/images/bg_login_lunar2.png'); ?>"
       alt="Auth Banner"
       class="w-full h-full object-cover" />
   </div>
 
-  <div class="bg-white w-full md:max-w-md lg:max-w-full md:w-1/2 xl:w-1/3 h-screen overflow-y-auto px-6 lg:px-16 xl:px-12">
-    <div class="w-full max-w-md pt-4 pb-8 mx-auto">
-      <h1 class="text-xl md:text-2xl font-bold leading-tight mt-6 mb-3">
+  <div class="bg-white w-full md:max-w-md lg:max-w-full md:w-1/2 xl:w-1/3 min-h-screen overflow-y-auto px-6 lg:px-16 xl:px-12 lg:ml-auto">
+    <div class="w-full max-w-md py-12 mx-auto">
+      <h1 class="text-xl md:text-2xl font-bold leading-tight mb-3">
         Register New Account
       </h1>
       <a
@@ -23,7 +23,13 @@ Register
         <span>&laquo; Back To Home</span>
       </a>
 
-      <form class="mt-6" action="" method="POST">
+      <?php if (isset($_SESSION['errors']['register'])): ?>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4" role="alert">
+          <span class="block sm:inline"><?= $_SESSION['errors']['register'][0]; ?></span>
+        </div>
+      <?php endif; ?>
+
+      <form class="mt-6" action="<?= site_url('/modules/client/auth.php'); ?>" method="POST">
         <!-- Username field -->
         <div class="mb-4">
           <label class="block text-gray-700" for="username">Username</label>
@@ -32,10 +38,29 @@ Register
             name="username"
             id="username"
             placeholder="Enter Username"
-            class="w-full px-4 py-3 rounded-md mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-            minlength="6"
-            autofocus
-            required />
+            class="w-full px-4 py-3 rounded-md mt-2 border <?= isset($_SESSION['errors']['username']) ? 'border-red-500' : 'focus:border-blue-500'; ?> focus:bg-white focus:outline-none"
+            value="<?= $_SESSION['old']['username'] ?? ''; ?>"
+            minlength="4"
+            autofocus />
+          <?php if (isset($_SESSION['errors']['username'])): ?>
+            <p class="text-red-500 text-xs italic mt-1"><?= $_SESSION['errors']['username'][0]; ?></p>
+          <?php endif; ?>
+        </div>
+
+        <!-- Fullname field -->
+        <div class="mb-4">
+          <label class="block text-gray-700" for="fullname">Fullname</label>
+          <input
+            type="text"
+            name="fullname"
+            id="fullname"
+            placeholder="Enter Fullname"
+            class="w-full px-4 py-3 rounded-md mt-2 border <?= isset($_SESSION['errors']['fullname']) ? 'border-red-500' : 'focus:border-blue-500'; ?> focus:bg-white focus:outline-none"
+            value="<?= $_SESSION['old']['fullname'] ?? ''; ?>"
+            minlength="6" />
+          <?php if (isset($_SESSION['errors']['fullname'])): ?>
+            <p class="text-red-500 text-xs italic mt-1"><?= $_SESSION['errors']['fullname'][0]; ?></p>
+          <?php endif; ?>
         </div>
 
         <!-- Email field -->
@@ -46,8 +71,11 @@ Register
             name="email"
             id="email"
             placeholder="Enter Email Address"
-            class="w-full px-4 py-3 rounded-md mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-            required />
+            class="w-full px-4 py-3 rounded-md mt-2 border <?= isset($_SESSION['errors']['email']) ? 'border-red-500' : 'focus:border-blue-500'; ?> focus:bg-white focus:outline-none"
+            value="<?= $_SESSION['old']['email'] ?? ''; ?>" />
+          <?php if (isset($_SESSION['errors']['email'])): ?>
+            <p class="text-red-500 text-xs italic mt-1"><?= $_SESSION['errors']['email'][0]; ?></p>
+          <?php endif; ?>
         </div>
 
         <!-- Password field -->
@@ -58,9 +86,11 @@ Register
             name="password"
             id="password"
             placeholder="Enter Password"
-            minlength="8"
-            class="w-full px-4 py-3 rounded-md mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-            required />
+            minlength="6"
+            class="w-full px-4 py-3 rounded-md mt-2 border <?= isset($_SESSION['errors']['password']) ? 'border-red-500' : 'focus:border-blue-500'; ?> focus:bg-white focus:outline-none" />
+          <?php if (isset($_SESSION['errors']['password'])): ?>
+            <p class="text-red-500 text-xs italic mt-1"><?= $_SESSION['errors']['password'][0]; ?></p>
+          <?php endif; ?>
         </div>
 
         <!-- Confirm Password field -->
@@ -71,9 +101,11 @@ Register
             name="confirm_password"
             id="confirm_password"
             placeholder="Confirm Password"
-            minlength="8"
-            class="w-full px-4 py-3 rounded-md mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-            required />
+            minlength="6"
+            class="w-full px-4 py-3 rounded-md mt-2 border <?= isset($_SESSION['errors']['confirm_password']) ? 'border-red-500' : 'focus:border-blue-500'; ?> focus:bg-white focus:outline-none" />
+          <?php if (isset($_SESSION['errors']['confirm_password'])): ?>
+            <p class="text-red-500 text-xs italic mt-1"><?= $_SESSION['errors']['confirm_password'][0]; ?></p>
+          <?php endif; ?>
         </div>
 
         <!-- Terms and conditions checkbox -->
@@ -83,8 +115,7 @@ Register
               type="checkbox"
               id="terms"
               name="terms"
-              class="h-4 w-4 cursor-pointer text-blue-500 border-gray-300 rounded focus:ring-blue-500"
-              required />
+              class="h-4 w-4 cursor-pointer text-blue-500 border-gray-300 rounded focus:ring-blue-500 <?= isset($_SESSION['errors']['terms']) ? 'border-red-500' : ''; ?>" />
           </div>
           <div class="ml-3 text-sm">
             <label for="terms" class="text-gray-700 cursor-pointer">
@@ -93,11 +124,14 @@ Register
                 Terms and Conditions
               </a>
             </label>
+            <?php if (isset($_SESSION['errors']['terms'])): ?>
+              <p class="text-red-500 text-xs italic mt-1"><?= $_SESSION['errors']['terms'][0]; ?></p>
+            <?php endif; ?>
           </div>
         </div>
 
         <button
-          type="submit"
+          type="submit" name="register"
           class="w-full block bg-blue-500 hover:bg-blue-600 focus:bg-blue-600 text-white font-semibold rounded-lg px-4 py-3 mt-6 text-center">
           Register Now
         </button>
@@ -149,4 +183,23 @@ Register
     </div>
   </div>
 </section>
+<?php
+unset($_SESSION['old']);
+unset($_SESSION['errors']);
+View::endSection(); ?>
+
+<?php View::startSection('custom_js'); ?>
+<?php if (isset($_SESSION['success'])): ?>
+  <script>
+    $(document).ready(function() {
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: '<?= $_SESSION['success']; ?>',
+        confirmButtonColor: '#3B82F6'
+      });
+    });
+  </script>
+  <?php unset($_SESSION['success']); ?>
+<?php endif; ?>
 <?php View::endSection(); ?>

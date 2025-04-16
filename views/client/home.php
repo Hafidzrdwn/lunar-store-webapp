@@ -158,5 +158,18 @@ $products = [
 <?php View::endSection(); ?>
 
 <?php View::startSection('custom_js'); ?>
+<?php if (isset($_SESSION['success'])): ?>
+  <script>
+    $(document).ready(function() {
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: '<?= $_SESSION['success']; ?>',
+        confirmButtonColor: '#3B82F6'
+      });
+    });
+  </script>
+  <?php unset($_SESSION['success']); ?>
+<?php endif; ?>
 <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
 <?php View::endSection(); ?>

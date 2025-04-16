@@ -54,6 +54,8 @@ if (!isset($_SESSION['admin_logged_in']) && !$_SESSION['admin_logged_in'] === tr
   </script>
   <script src="<?= asset('admin/compiled/js/app.js') ?>"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Include Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
   <script>
     $(document).ready(function() {
       // Initialize the logout button
