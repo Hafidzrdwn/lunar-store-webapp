@@ -1,3 +1,8 @@
+<?php
+if (is_auth()) {
+  redirect('/');
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 

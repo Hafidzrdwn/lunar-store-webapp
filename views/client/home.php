@@ -141,7 +141,7 @@ $products = [
             <div class="mt-6 flex items-center justify-between">
               <span class="text-blue-500 font-bold"><?= $product['price']; ?></span>
               <button onclick="addToCart(<?= $product['id']; ?>)" class="bg-blue-500 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-600 transition-all active:scale-[0.9]">
-                <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
+                <i class="fas fa-eye mr-2"></i>View Details
               </button>
             </div>
           </div>

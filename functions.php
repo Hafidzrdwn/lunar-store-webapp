@@ -39,3 +39,13 @@ function is_auth()
   if (!isset($_SESSION['isLogin'])) return false;
   return $_SESSION['isLogin'] && isset($_SESSION['isLogin']) && $_SESSION['isLogin'] === true;
 }
+
+function toRupiah($number)
+{
+  return 'Rp' . number_format($number, 0, ',', '.');
+}
+
+function rupiahToNumber($number)
+{
+  return (int)str_replace(['Rp', '.', ' '], '', $number);
+}

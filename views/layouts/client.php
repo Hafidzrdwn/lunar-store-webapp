@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lunar Store - <?php View::yield('title'); ?></title>
+  <link rel="shortcut icon" href="<?= asset('client/images/logo.png'); ?>" type="image/x-icon">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,6 +31,7 @@
   <!-- Footer -->
   <?php component('client/footer'); ?>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" defer></script>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       const mobileMenuButton = document.querySelector(".mobileNav button");
