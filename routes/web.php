@@ -1,7 +1,5 @@
 <?php
 session_start();
-unset($_SESSION['isLogin']);
-// $_SESSION['isLogin'] = true;
 
 $routes = [
   // CLIENT
@@ -14,7 +12,6 @@ $routes = [
   '/orders' => 'client/orders.php',
 
 
-
   // ADMIN
   '/admin' => 'admin/dashboard.php',
   '/admin/login' => 'admin/login.php',
@@ -22,13 +19,13 @@ $routes = [
 
 
 // echo '<pre>';
-// print_r($routes);
+// print_r($routes);`
 // echo '</pre>';
 // die;
 
 
 $request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$request_uri = str_replace('/lunar_store', '', $request_uri);
+$request_uri = str_replace('/lunar-store-webapp', '', $request_uri);
 $request_uri = ($request_uri == "/") ? $request_uri : rtrim($request_uri, '/');
 
 

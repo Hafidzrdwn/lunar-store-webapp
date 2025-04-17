@@ -1,7 +1,7 @@
 <?php
 
 define('BASE_PATH', dirname(__DIR__));
-define('BASE_URL', 'http://localhost:8080/lunar_store/');
+define('BASE_URL', 'http://localhost/lunar-store-webapp/');
 define('PUBLIC_PATH', BASE_URL . 'public/');
 
 // Load .env variables
