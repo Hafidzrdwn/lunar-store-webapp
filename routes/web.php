@@ -18,8 +18,12 @@ $routes = [
   '/admin/login' => 'admin/login.php',
 
   // MODULES
+  // MASTER DATA
   '/admin/users' => 'admin/users.php',
   '/admin/product_categories' => 'admin/product/categories.php',
+  '/admin/products' => 'admin/product/products.php',
+  '/admin/product_types' => 'admin/product/types.php',
+  '/admin/product_details' => 'admin/product/details.php',
 ];
 
 
@@ -30,7 +34,8 @@ $routes = [
 
 
 $request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$request_uri = str_replace('/lunar_store', '', $request_uri);
+$folder_name = basename(dirname($_SERVER['SCRIPT_NAME'])) . '/';
+$request_uri = str_replace($folder_name, '', $request_uri);
 $request_uri = ($request_uri == "/") ? $request_uri : rtrim($request_uri, '/');
 
 

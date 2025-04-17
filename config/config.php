@@ -1,8 +1,6 @@
 <?php
 
 define('BASE_PATH', dirname(__DIR__));
-define('BASE_URL', 'http://localhost:8080/lunar_store/');
-define('PUBLIC_PATH', BASE_URL . 'public/');
 
 // Load .env variables
 if (file_exists(BASE_PATH . "/.env")) {
@@ -14,6 +12,8 @@ if (file_exists(BASE_PATH . "/.env")) {
   }
 }
 
+define('BASE_URL', getenv('BASE_URL') ?: 'http://localhost:8080/lunar_store/');
+define('PUBLIC_PATH', BASE_URL . 'public/');
 define('APP_ENV', getenv('APP_ENV') ?: 'development');
 define('APP_DEBUG', APP_ENV === 'development');
 
