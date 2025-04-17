@@ -27,6 +27,9 @@ if (!isset($_SESSION['admin_logged_in']) && !$_SESSION['admin_logged_in'] === tr
   <link rel="stylesheet" href="<?= asset('admin/compiled/css/iconly.css') ?>">
   <link rel="stylesheet" href="<?= asset('admin/custom.css') ?>">
 
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/select/1.7.0/css/select.bootstrap5.min.css">
 
   <?php View::yield('custom_css'); ?>
 </head>
@@ -56,6 +59,13 @@ if (!isset($_SESSION['admin_logged_in']) && !$_SESSION['admin_logged_in'] === tr
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- Include Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+  <script src="https://cdn.datatables.net/select/1.7.0/js/dataTables.select.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap5.min.js"></script>
   <script>
     $(document).ready(function() {
       // Initialize the logout button

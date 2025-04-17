@@ -1,9 +1,5 @@
 <?php
-session_start();
-require __DIR__ . '/../../config/config.php';
-require __DIR__ . '/../../config/database.php';
-require __DIR__ . '/../../config/validator.php';
-require __DIR__ . '/../../functions.php';
+require_once __DIR__ . '/config.php';
 
 // Check if the form is submitted
 if (isset($_POST['login'])) {
