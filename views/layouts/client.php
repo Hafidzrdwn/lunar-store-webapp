@@ -31,7 +31,9 @@
   <!-- Footer -->
   <?php component('client/footer'); ?>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       const mobileMenuButton = document.querySelector(".mobileNav button");
@@ -93,6 +95,28 @@
         if (!dropdown.contains(event.target)) {
           dropdown.classList.remove('active');
         }
+      });
+    });
+  </script>
+  <script>
+    $(document).ready(function() {
+      // Initialize the logout button
+      $('.btnLogout').on('click', function(e) {
+        e.preventDefault();
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, logout!',
+          reverseButtons: true
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = $(this).attr('href');
+          }
+        });
       });
     });
   </script>
