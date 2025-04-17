@@ -68,20 +68,41 @@ class Validator
 
     // Unique (database check)
     if (strpos($rule, 'unique:') === 0) {
-      [$table, $column] = explode(':', str_replace('unique:', '', $rule));
-      if ($this->existsInDatabase($table, $column, $value)) {
+      $params = explode(',', substr($rule, strlen('unique:')));
+      $table = $params[0] ?? null;
+      $column = $params[1] ?? $field;
+
+      if ($table && $this->existsInDatabase($table, $column, $value)) {
         $this->addError($field, 'unique', "The $field field must be unique.");
+      }
+    }
+
+    // Confirm password
+    if (strpos($rule, 'confirmed:') === 0) {
+      $originalField = explode(':', $rule)[1]; // e.g., 'password'
+      if ($value !== ($this->data[$originalField] ?? null)) {
+        $this->addError($field, 'confirmed', "The $field field does not match the $originalField field.");
       }
     }
   }
 
-  private function existsInDatabase(string $table, string $column, string $value): bool
+  private function existsInDatabase(string $table, string $column, string $value)
   {
-    // You should replace this with actual database logic.
-    global $pdo;
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM $table WHERE $column = :value");
-    $stmt->execute(['value' => $value]);
-    return $stmt->fetchColumn() > 0;
+    global $conn;
+    $query = "SELECT COUNT(*) FROM `$table` WHERE `$column` = ?";
+    $stmt = mysqli_prepare($conn, $query);
+
+    if (!$stmt) {
+      return false;
+    }
+
+    mysqli_stmt_bind_param($stmt, 's', $value);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $count);
+    mysqli_stmt_fetch($stmt);
+    mysqli_stmt_close($stmt);
+
+    return $count > 0;
   }
 
   private function addError(string $field, string $rule, string $defaultMessage)

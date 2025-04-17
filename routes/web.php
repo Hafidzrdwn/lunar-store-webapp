@@ -1,7 +1,5 @@
 <?php
 session_start();
-unset($_SESSION['isLogin']);
-// $_SESSION['isLogin'] = true;
 
 $routes = [
   // CLIENT
@@ -18,6 +16,10 @@ $routes = [
   // ADMIN
   '/admin' => 'admin/dashboard.php',
   '/admin/login' => 'admin/login.php',
+
+  // MODULES
+  '/admin/users' => 'admin/users.php',
+  '/admin/product_categories' => 'admin/product/categories.php',
 ];
 
 
