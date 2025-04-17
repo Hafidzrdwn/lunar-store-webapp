@@ -1,3 +1,9 @@
+<?php
+function is_active($uri)
+{
+  return current_url() === $uri ? 'active' : '';
+}
+?>
 <div id="sidebar">
   <div class="sidebar-wrapper active">
     <div class="sidebar-header position-relative">
@@ -69,8 +75,8 @@
     </div>
     <div class="sidebar-menu">
       <ul class="menu mt-0">
-        <li class="sidebar-item active">
-          <a href="index.html" class="sidebar-link">
+        <li class="sidebar-item <?= is_active('/admin'); ?>">
+          <a href="<?= site_url('/admin'); ?>" class="sidebar-link">
             <i class="bi bi-grid-fill"></i>
             <span>Dashboard</span>
           </a>
@@ -79,32 +85,32 @@
         <hr />
 
         <li class="sidebar-title mt-3">Data Master</li>
-        <li class="sidebar-item">
-          <a href="form-layout.html" class="sidebar-link">
+        <li class="sidebar-item <?= is_active('/admin/users'); ?>">
+          <a href="<?= site_url('/admin/users'); ?>" class="sidebar-link">
             <i class="fas fa-users"></i>
             <span>Data Pengguna</span>
           </a>
         </li>
-        <li class="sidebar-item">
-          <a href="form-layout.html" class="sidebar-link">
+        <li class="sidebar-item <?= is_active('/admin/product_categories'); ?>">
+          <a href="<?= site_url('/admin/product_categories'); ?>" class="sidebar-link">
             <i class="fas fa-icons"></i>
             <span>Data Kategori</span>
           </a>
         </li>
-        <li class="sidebar-item">
-          <a href="form-layout.html" class="sidebar-link">
+        <li class="sidebar-item <?= is_active('/admin/products'); ?>">
+          <a href="<?= site_url('/admin/products'); ?>" class="sidebar-link">
             <i class="fas fa-store"></i>
             <span>Data Produk</span>
           </a>
         </li>
-        <li class="sidebar-item">
-          <a href="form-layout.html" class="sidebar-link">
+        <li class="sidebar-item <?= is_active('/admin/product_types'); ?>">
+          <a href="<?= site_url('/admin/product_types'); ?>" class="sidebar-link">
             <i class="fas fa-tags"></i>
             <span>Data Tipe Produk</span>
           </a>
         </li>
-        <li class="sidebar-item">
-          <a href="form-layout.html" class="sidebar-link">
+        <li class="sidebar-item <?= is_active('/admin/product_details'); ?>">
+          <a href="<?= site_url('/admin/product_details'); ?>" class="sidebar-link">
             <i class="fas fa-list-ul"></i>
             <span>Detail Produk</span>
           </a>

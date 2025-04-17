@@ -3,235 +3,81 @@
 Product Catalog
 <?php View::endSection(); ?>
 
+<?php View::startSection('custom_css'); ?>
+<style>
+  .out_of_stock {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .disabled-btn-view {
+    pointer-events: none;
+  }
+</style>
+<?php View::endSection(); ?>
+
 <?php View::startSection('content'); ?>
 <?php
+global $conn;
+
 // Get category from URL parameter
 $current_category = isset($_GET['category']) ? $_GET['category'] : '';
+$current_category_data = getSingleData('product_categories', 'slug', $conn->real_escape_string($current_category));
 
-// Sample data for categories
-$categories = [
-  'editing-apps' => 'Editing Apps',
-  'mobile-legends' => 'Mobile Legends',
-  'streaming-apps' => 'Streaming Apps',
-  'productivity-apps' => 'Productivity Apps'
-];
-
-// Sample data for products
-$editing_apps = [
-  [
-    'id' => 101,
-    'name' => 'Adobe Lightroom Premium',
-    'description' => 'Professional photo editing app',
-    'price' => 'Rp 75.000',
-    'period' => '1 Month',
-    'image' => 'https://placehold.co/300x200'
-  ],
-  [
-    'id' => 102,
-    'name' => 'Adobe Photoshop Premium',
-    'description' => 'Professional image editing software',
-    'price' => 'Rp 99.000',
-    'period' => '1 Month',
-    'image' => 'https://placehold.co/300x200'
-  ],
-  [
-    'id' => 103,
-    'name' => 'Canva Pro',
-    'description' => 'Design platform for social media & more',
-    'price' => 'Rp 65.000',
-    'period' => '1 Month',
-    'image' => 'https://placehold.co/300x200'
-  ],
-  [
-    'id' => 104,
-    'name' => 'Filmora Pro',
-    'description' => 'Video editing software',
-    'price' => 'Rp 85.000',
-    'period' => '1 Month',
-    'image' => 'https://placehold.co/300x200'
-  ],
-  [
-    'id' => 105,
-    'name' => 'Snapseed Pro',
-    'description' => 'Mobile photo editing app',
-    'price' => 'Rp 45.000',
-    'period' => '1 Month',
-    'image' => 'https://placehold.co/300x200'
-  ],
-  [
-    'id' => 106,
-    'name' => 'VSCO Premium',
-    'description' => 'Photo & video editing with presets',
-    'price' => 'Rp 55.000',
-    'period' => '1 Month',
-    'image' => 'https://placehold.co/300x200'
-  ]
-];
-
-$mobile_legends = [
-  [
-    'id' => 201,
-    'name' => '86 Diamonds',
-    'description' => 'Mobile Legends: Bang Bang',
-    'price' => 'Rp 22.000',
-    'period' => '',
-    'image' => 'https://placehold.co/300x200'
-  ],
-  [
-    'id' => 202,
-    'name' => '172 Diamonds',
-    'description' => 'Mobile Legends: Bang Bang',
-    'price' => 'Rp 42.000',
-    'period' => '',
-    'image' => 'https://placehold.co/300x200'
-  ],
-  [
-    'id' => 203,
-    'name' => '257 Diamonds',
-    'description' => 'Mobile Legends: Bang Bang',
-    'price' => 'Rp 62.000',
-    'period' => '',
-    'image' => 'https://placehold.co/300x200'
-  ],
-  [
-    'id' => 204,
-    'name' => '344 Diamonds',
-    'description' => 'Mobile Legends: Bang Bang',
-    'price' => 'Rp 82.000',
-    'period' => '',
-    'image' => 'https://placehold.co/300x200'
-  ],
-  [
-    'id' => 205,
-    'name' => '429 Diamonds',
-    'description' => 'Mobile Legends: Bang Bang',
-    'price' => 'Rp 102.000',
-    'period' => '',
-    'image' => 'https://placehold.co/300x200'
-  ],
-  [
-    'id' => 206,
-    'name' => '514 Diamonds',
-    'description' => 'Mobile Legends: Bang Bang',
-    'price' => 'Rp 122.000',
-    'period' => '',
-    'image' => 'https://placehold.co/300x200'
-  ],
-  [
-    'id' => 207,
-    'name' => '706 Diamonds',
-    'description' => 'Mobile Legends: Bang Bang',
-    'price' => 'Rp 162.000',
-    'period' => '',
-    'image' => 'https://placehold.co/300x200'
-  ],
-  [
-    'id' => 208,
-    'name' => '878 Diamonds',
-    'description' => 'Mobile Legends: Bang Bang',
-    'price' => 'Rp 202.000',
-    'period' => '',
-    'image' => 'https://placehold.co/300x200'
-  ],
-  [
-    'id' => 209,
-    'name' => 'Starlight Member',
-    'description' => 'Mobile Legends: Bang Bang',
-    'price' => 'Rp 149.000',
-    'period' => '1 Month',
-    'image' => 'https://placehold.co/300x200'
-  ],
-  [
-    'id' => 210,
-    'name' => 'Starlight Member Plus',
-    'description' => 'Mobile Legends: Bang Bang',
-    'price' => 'Rp 290.000',
-    'period' => '1 Month',
-    'image' => 'https://placehold.co/300x200'
-  ]
-];
-
-$streaming_apps = [
-  [
-    'id' => 301,
-    'name' => 'Netflix Premium',
-    'description' => 'Streaming service for movies & TV shows',
-    'price' => 'Rp 120.000',
-    'period' => '1 Month',
-    'image' => 'https://placehold.co/300x200'
-  ],
-  [
-    'id' => 302,
-    'name' => 'Spotify Premium',
-    'description' => 'Music streaming service',
-    'price' => 'Rp 55.000',
-    'period' => '1 Month',
-    'image' => 'https://placehold.co/300x200'
-  ],
-  [
-    'id' => 303,
-    'name' => 'Disney+ Hotstar',
-    'description' => 'Streaming service for Disney content',
-    'price' => 'Rp 39.000',
-    'period' => '1 Month',
-    'image' => 'https://placehold.co/300x200'
-  ]
-];
-
-$productivity_apps = [
-  [
-    'id' => 401,
-    'name' => 'Microsoft 365',
-    'description' => 'Office suite with Word, Excel, PowerPoint',
-    'price' => 'Rp 149.000',
-    'period' => '1 Month',
-    'image' => 'https://placehold.co/300x200'
-  ],
-  [
-    'id' => 402,
-    'name' => 'Notion Premium',
-    'description' => 'All-in-one workspace',
-    'price' => 'Rp 85.000',
-    'period' => '1 Month',
-    'image' => 'https://placehold.co/300x200'
-  ]
-];
+$categories = query("SELECT slug, title FROM product_categories ORDER BY id ASC");
 
 // Determine which products to display based on category
-$products_to_display = [];
 $category_title = 'All Products';
+$products_to_display = [];
 
-if ($current_category == 'editing-apps') {
-  $products_to_display = $editing_apps;
-  $category_title = 'Editing Apps';
-} elseif ($current_category == 'mobile-legends') {
-  $products_to_display = $mobile_legends;
-  $category_title = 'Mobile Legends';
-} elseif ($current_category == 'streaming-apps') {
-  $products_to_display = $streaming_apps;
-  $category_title = 'Streaming Apps';
-} elseif ($current_category == 'productivity-apps') {
-  $products_to_display = $productivity_apps;
-  $category_title = 'Productivity Apps';
-} else {
-  // If no category is selected, show all products
-  $products_to_display = array_merge($editing_apps, $mobile_legends, $streaming_apps, $productivity_apps);
+// Build query with JOIN to get starting price
+$query = "SELECT 
+            p.id, 
+            p.app_name, 
+            p.description, 
+            p.ready_stock,
+            MIN(pd.price) AS starting_price
+          FROM products p
+          LEFT JOIN product_details pd ON pd.product_id = p.id";
+
+if (!empty($current_category)) {
+  $query .= " WHERE p.category_id = " . $current_category_data['id'];
+  $category_title = $current_category_data['title'];
 }
+
+$query .= " GROUP BY p.id ORDER BY p.app_name";
 
 // Pagination settings
 $items_per_page = 8;
 $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$total_items = count($products_to_display);
+
+// Count total items for pagination (without join)
+$count_query = "SELECT COUNT(*) as total FROM products p";
+if (!empty($current_category)) {
+  $count_query .= " WHERE p.category_id = " . $current_category_data['id'];
+}
+$count_result = $conn->query($count_query);
+$total_items = $count_result->fetch_assoc()['total'];
 $total_pages = ceil($total_items / $items_per_page);
 
 // Ensure current page is valid
 if ($current_page < 1) $current_page = 1;
 if ($current_page > $total_pages && $total_pages > 0) $current_page = $total_pages;
 
-// Get products for current page
+// Add pagination to query
 $offset = ($current_page - 1) * $items_per_page;
-$products_to_display = array_slice($products_to_display, $offset, $items_per_page);
+$query .= " LIMIT $offset, $items_per_page";
+
+// Fetch products
+$result = $conn->query($query);
+if ($result) {
+  while ($row = $result->fetch_assoc()) {
+    $row['starting_price_formatted'] = $row['starting_price'] !== null ? toRupiah($row['starting_price']) : '-';
+    $products_to_display[] = $row;
+  }
+}
 ?>
+
 
 <!-- Catalog Header -->
 <div class="bg-white shadow-sm">
@@ -245,12 +91,12 @@ $products_to_display = array_slice($products_to_display, $offset, $items_per_pag
 <div class="bg-white border-t border-b border-gray-200">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-14 py-4">
     <div class="flex flex-wrap items-center gap-3" id="category-filters">
-      <a href="javascript:void(0)" data-category="" class="category-filter <?php echo $current_category == '' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-800 hover:bg-gray-200'; ?> px-4 py-2 rounded-md text-sm font-medium transition-colors">
+      <a href="javascript:void(0)" data-category="" class="category-filter <?= $current_category == '' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-800 hover:bg-gray-200'; ?> px-4 py-2 rounded-md text-sm font-medium transition-colors">
         All Products
       </a>
-      <?php foreach ($categories as $slug => $name): ?>
-        <a href="javascript:void(0)" data-category="<?php echo $slug; ?>" class="category-filter <?php echo $current_category == $slug ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-800 hover:bg-gray-200'; ?> px-4 py-2 rounded-md text-sm font-medium transition-colors">
-          <?php echo $name; ?>
+      <?php foreach ($categories as $category): ?>
+        <a href="javascript:void(0)" data-category="<?= $category['slug']; ?>" class="category-filter <?= $current_category == $category['slug'] ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-800 hover:bg-gray-200'; ?> px-4 py-2 rounded-md text-sm font-medium transition-colors">
+          <?= $category['title']; ?>
         </a>
       <?php endforeach; ?>
     </div>
@@ -258,29 +104,42 @@ $products_to_display = array_slice($products_to_display, $offset, $items_per_pag
 </div>
 
 <!-- Product Catalog -->
-<section class="py-12">
+<section class="py-12 bg-gradient-to-b from-blue-50 to-white">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-14">
-    <h2 class="text-xl md:text-2xl font-bold text-blue-600 text-playfair" id="category-title"><?php echo $category_title; ?></h2>
+    <h2 class="text-xl md:text-2xl font-bold text-blue-600 text-playfair" id="category-title"><?= $category_title; ?></h2>
     <div class="bg-blue-600 w-[50px] h-[3px] mb-8 mt-2"></div>
 
     <div id="products-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       <?php foreach ($products_to_display as $product): ?>
-        <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow h-full flex flex-col">
+        <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow flex flex-col h-[440px] relative <?php if (!$product['ready_stock']): ?> out_of_stock <?php endif; ?>">
           <div class="h-48 relative">
-            <img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" class="object-cover w-full h-full">
+            <img src="https://placehold.co/300x200" alt="<?= $product['app_name']; ?>" class="object-cover w-full h-full">
           </div>
-          <div class="p-4 flex flex-col flex-grow">
-            <h3 class="text-lg font-medium text-gray-900"><?php echo $product['name']; ?></h3>
-            <p class="text-sm text-gray-600 mt-1"><?php echo $product['description']; ?></p>
-            <?php if (!empty($product['period'])): ?>
-              <p class="text-xs text-gray-500 mt-1"><?php echo $product['period']; ?></p>
-            <?php endif; ?>
-            <div class="mt-auto pt-4 flex items-center justify-between">
-              <span class="text-blue-500 font-bold"><?php echo $product['price']; ?></span>
-              <button onclick="addToCart(<?php echo $product['id']; ?>)" class="bg-blue-500 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700 transition-colors">
-                <i class="fas fa-eye mr-2"></i>View Detail
-              </button>
+          <div class="p-6 pb-24">
+            <h3 class="text-lg font-semibold text-gray-900"><?= $product['app_name']; ?></h3>
+
+            <!-- Truncate description in PHP and style with ellipsis -->
+            <p class="text-sm text-gray-600 mt-1 overflow-hidden line-clamp-3">
+              <?= strlen($product['description']) > 100 ? substr($product['description'], 0, 150) . '...' : $product['description']; ?>
+            </p>
+          </div>
+
+          <!-- Absolutely positioned price and button row -->
+          <div class="absolute bottom-0 left-0 right-0 p-6">
+            <div class="flex flex-col items-start mb-2">
+              <span class="text-blue-500 font-medium text-sm">Starting From</span>
+              <span class="text-lg font-semibold text-blue-500"><?= $product['starting_price_formatted']; ?></span>
             </div>
+            <?php
+            $class_btn = ($product['ready_stock']) ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-red-100 text-red-500 disabled-btn-view';
+            ?>
+            <a href="<?= site_url('/details?id=' . $product['id']); ?>" class="px-4 py-2 rounded-md text-sm block text-center transition-all active:scale-[0.9] <?= $class_btn; ?>">
+              <?php if ($product['ready_stock']): ?>
+                <i class="fas fa-eye mr-2"></i>View Details
+              <?php else: ?>
+                <i class="fas fa-ban mr-2"></i>Out of Stock
+              <?php endif; ?>
+            </a>
           </div>
         </div>
       <?php endforeach; ?>
@@ -291,19 +150,19 @@ $products_to_display = array_slice($products_to_display, $offset, $items_per_pag
       <div class="mt-10 flex justify-center" id="pagination">
         <div class="flex space-x-2">
           <?php if ($current_page > 1): ?>
-            <a href="javascript:void(0)" data-page="<?php echo $current_page - 1; ?>" class="pagination-link bg-gray-100 text-gray-800 hover:bg-gray-200 px-4 py-2 rounded-md text-sm font-medium transition-colors">
+            <a href="javascript:void(0)" data-page="<?= $current_page - 1; ?>" class="pagination-link bg-gray-100 text-gray-800 hover:bg-gray-200 px-4 py-2 rounded-md text-sm font-medium transition-colors">
               Previous
             </a>
           <?php endif; ?>
 
           <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-            <a href="javascript:void(0)" data-page="<?php echo $i; ?>" class="pagination-link <?php echo $i == $current_page ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-800 hover:bg-gray-200'; ?> px-4 py-2 rounded-md text-sm font-medium transition-colors">
-              <?php echo $i; ?>
+            <a href="javascript:void(0)" data-page="<?= $i; ?>" class="pagination-link <?= $i == $current_page ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-800 hover:bg-gray-200'; ?> px-4 py-2 rounded-md text-sm font-medium transition-colors">
+              <?= $i; ?>
             </a>
           <?php endfor; ?>
 
           <?php if ($current_page < $total_pages): ?>
-            <a href="javascript:void(0)" data-page="<?php echo $current_page + 1; ?>" class="pagination-link bg-gray-100 text-gray-800 hover:bg-gray-200 px-4 py-2 rounded-md text-sm font-medium transition-colors">
+            <a href="javascript:void(0)" data-page="<?= $current_page + 1; ?>" class="pagination-link bg-gray-100 text-gray-800 hover:bg-gray-200 px-4 py-2 rounded-md text-sm font-medium transition-colors">
               Next
             </a>
           <?php endif; ?>
@@ -327,42 +186,51 @@ $products_to_display = array_slice($products_to_display, $offset, $items_per_pag
       $('.category-filter').removeClass('bg-blue-500 text-white').addClass('bg-gray-100 text-gray-800 hover:bg-gray-200');
       $(this).removeClass('bg-gray-100 text-gray-800 hover:bg-gray-200').addClass('bg-blue-500 text-white');
 
-      // Show loading state
-      $('#products-container').html('<div class="col-span-full text-center py-10"><i class="fas fa-spinner fa-spin text-3xl text-blue-500"></i></div>');
+      // Fade out current content
+      $('#products-container').fadeOut(300, function() {
+        // Show loading state after fade out
+        $(this).html('<div class="col-span-full text-center py-10"><i class="fas fa-spinner fa-spin text-3xl text-blue-500"></i></div>').fadeIn(300);
 
-      // Make AJAX request
-      // $.ajax({
-      //   url: 'catalog.php',
-      //   type: 'GET',
-      //   data: {
-      //     category: category,
-      //     ajax: true,
-      //     page: 1 // Reset to first page when changing category
-      //   },
-      //   success: function(response) {
-      //     // Update URL without refreshing page
-      //     var newUrl = 'catalog.php' + (category ? '?category=' + category : '');
-      //     history.pushState({}, '', newUrl);
+        // Make AJAX request
+        $.ajax({
+          url: '<?= site_url('/catalog') ?>',
+          type: 'GET',
+          data: {
+            category: category,
+            ajax: true,
+            page: 1
+          },
+          success: function(response) {
+            // Update URL without refreshing page
+            var newUrl = 'catalog' + (category ? '?category=' + category : '');
+            history.pushState({}, '', newUrl);
 
-      //     // Parse the JSON response
-      //     var data = JSON.parse(response);
+            // Parse the JSON response
+            var data = JSON.parse(JSON.stringify(response));
 
-      //     // Update the category title
-      //     $('#category-title').text(data.category_title);
+            // Update the category title with fade effect
+            $('#category-title').fadeOut(200, function() {
+              $(this).text(data.category_title).fadeIn(200);
+            });
 
-      //     // Update the products container
-      //     $('#products-container').html(data.products_html);
+            // Update the products container with fade effect
+            $('#products-container').fadeOut(200, function() {
+              $(this).html(data.products_html).fadeIn(400);
+            });
 
-      //     // Update pagination
-      //     $('#pagination').html(data.pagination_html);
-
-      //     // Reattach pagination event handlers
-      //     attachPaginationHandlers();
-      //   },
-      //   error: function() {
-      //     $('#products-container').html('<div class="col-span-full text-center py-10">Error loading products. Please try again.</div>');
-      //   }
-      // });
+            // Instead of modifying pagination links, let's just reload the page
+            // This will ensure pagination works correctly and avoids footer movement issues
+            setTimeout(function() {
+              window.location.href = newUrl;
+            }, 600); // Wait for fade effects to complete
+          },
+          error: function() {
+            $('#products-container').fadeOut(200, function() {
+              $(this).html('<div class="col-span-full text-center py-10">Error loading products. Please try again.</div>').fadeIn(400);
+            });
+          }
+        });
+      });
     });
 
     // Function to attach pagination event handlers
@@ -375,36 +243,7 @@ $products_to_display = array_slice($products_to_display, $offset, $items_per_pag
         // Show loading state
         $('#products-container').html('<div class="col-span-full text-center py-10"><i class="fas fa-spinner fa-spin text-3xl text-blue-500"></i></div>');
 
-        // Make AJAX request
-        // $.ajax({
-        //   url: 'catalog.php',
-        //   type: 'GET',
-        //   data: {
-        //     category: category,
-        //     ajax: true,
-        //     page: page
-        //   },
-        //   success: function(response) {
-        //     // Update URL without refreshing page
-        //     var newUrl = 'catalog.php?page=' + page + (category ? '&category=' + category : '');
-        //     history.pushState({}, '', newUrl);
-
-        //     // Parse the JSON response
-        //     var data = JSON.parse(response);
-
-        //     // Update the products container
-        //     $('#products-container').html(data.products_html);
-
-        //     // Update pagination
-        //     $('#pagination').html(data.pagination_html);
-
-        //     // Reattach pagination event handlers
-        //     attachPaginationHandlers();
-        //   },
-        //   error: function() {
-        //     $('#products-container').html('<div class="col-span-full text-center py-10">Error loading products. Please try again.</div>');
-        //   }
-        // });
+        window.location.href = '<?= site_url('/catalog') ?>?category=' + category + '&page=' + page;
       });
     }
 
@@ -426,22 +265,28 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'true') {
   // Generate products HTML
   ob_start();
   foreach ($products_to_display as $product): ?>
-    <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow h-full flex flex-col">
+    <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow flex flex-col h-[440px] relative">
       <div class="h-48 relative">
-        <img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" class="object-cover w-full h-full">
+        <img src="https://placehold.co/300x200" alt="<?= $product['app_name']; ?>" class="object-cover w-full h-full">
       </div>
-      <div class="p-4 flex flex-col flex-grow">
-        <h3 class="text-lg font-medium text-gray-900"><?php echo $product['name']; ?></h3>
-        <p class="text-sm text-gray-600 mt-1"><?php echo $product['description']; ?></p>
-        <?php if (!empty($product['period'])): ?>
-          <p class="text-xs text-gray-500 mt-1"><?php echo $product['period']; ?></p>
-        <?php endif; ?>
-        <div class="mt-auto pt-4 flex items-center justify-between">
-          <span class="text-blue-500 font-bold"><?php echo $product['price']; ?></span>
-          <button onclick="addToCart(<?php echo $product['id']; ?>)" class="bg-blue-500 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700 transition-colors">
-            <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
-          </button>
+      <div class="p-6 pb-24">
+        <h3 class="text-lg font-semibold text-gray-900"><?= $product['app_name']; ?></h3>
+
+        <!-- Truncate description in PHP and style with ellipsis -->
+        <p class="text-sm text-gray-600 mt-1 overflow-hidden line-clamp-3">
+          <?= strlen($product['description']) > 100 ? substr($product['description'], 0, 150) . '...' : $product['description']; ?>
+        </p>
+      </div>
+
+      <!-- Absolutely positioned price and button row -->
+      <div class="absolute bottom-0 left-0 right-0 p-6">
+        <div class="flex flex-col items-start mb-2">
+          <span class="text-blue-500 font-medium text-sm">Starting From</span>
+          <span class="text-lg font-semibold text-blue-500">Rp<?= number_format(3500, 0, ',', '.'); ?></span>
         </div>
+        <a href="#" class="bg-blue-500 text-white px-4 py-2 rounded-md text-sm block text-center hover:bg-blue-600 transition-all active:scale-[0.9]">
+          <i class="fas fa-eye mr-2"></i>View Details
+        </a>
       </div>
     </div>
   <?php endforeach;
@@ -452,19 +297,19 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'true') {
     ob_start(); ?>
     <div class="flex space-x-2">
       <?php if ($current_page > 1): ?>
-        <a href="javascript:void(0)" data-page="<?php echo $current_page - 1; ?>" class="pagination-link bg-gray-100 text-gray-800 hover:bg-gray-200 px-4 py-2 rounded-md text-sm font-medium transition-colors">
+        <a href="javascript:void(0)" data-page="<?= $current_page - 1; ?>" class="pagination-link bg-gray-100 text-gray-800 hover:bg-gray-200 px-4 py-2 rounded-md text-sm font-medium transition-colors">
           Previous
         </a>
       <?php endif; ?>
 
       <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-        <a href="javascript:void(0)" data-page="<?php echo $i; ?>" class="pagination-link <?php echo $i == $current_page ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-800 hover:bg-gray-200'; ?> px-4 py-2 rounded-md text-sm font-medium transition-colors">
-          <?php echo $i; ?>
+        <a href="javascript:void(0)" data-page="<?= $i; ?>" class="pagination-link <?= $i == $current_page ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-800 hover:bg-gray-200'; ?> px-4 py-2 rounded-md text-sm font-medium transition-colors">
+          <?= $i; ?>
         </a>
       <?php endfor; ?>
 
       <?php if ($current_page < $total_pages): ?>
-        <a href="javascript:void(0)" data-page="<?php echo $current_page + 1; ?>" class="pagination-link bg-gray-100 text-gray-800 hover:bg-gray-200 px-4 py-2 rounded-md text-sm font-medium transition-colors">
+        <a href="javascript:void(0)" data-page="<?= $current_page + 1; ?>" class="pagination-link bg-gray-100 text-gray-800 hover:bg-gray-200 px-4 py-2 rounded-md text-sm font-medium transition-colors">
           Next
         </a>
       <?php endif; ?>

@@ -36,9 +36,9 @@ function is_active($uri)
           <!-- User Profile Dropdown -->
           <div class="dropdown relative">
             <button class="flex items-center px-3 py-2 space-x-2 rounded-md hover:bg-gray-100" id="profileDropdown">
-              <span class="text-gray-900 font-semibold">John Doe</span>
+              <span class="text-gray-900 font-semibold"><?= $_SESSION['user_data']['username']; ?></span>
               <div class="h-10 w-10 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
-                <img src="<?= asset('client/images/dydy.jpg'); ?>" alt="User" class="h-full w-full object-cover">
+                <img src="<?= asset('admin/static/images/faces/2.jpg'); ?>" alt="User" class="h-full w-full object-cover">
               </div>
               <i class="fas fa-chevron-down text-gray-500 text-xs"></i>
             </button>
@@ -47,7 +47,7 @@ function is_active($uri)
                 <i class="fas fa-cog mr-2"></i>
                 <span>Settings</span>
               </a>
-              <a href="logout.php" class="px-4 py-2 text-sm text-gray-700 hover:bg-red-100 hover:text-red-600 flex items-center">
+              <a href="<?= site_url('/modules/client/auth.php?logout=true'); ?>" class="px-4 py-2 text-sm text-gray-700 hover:bg-red-100 hover:text-red-600 flex items-center btnLogout">
                 <i class="fas fa-sign-out-alt mr-2"></i>
                 <span>Logout</span>
               </a>

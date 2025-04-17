@@ -5,60 +5,19 @@ Homepage
 
 <?php View::startSection('content'); ?>
 <?php
-$categories = [
-  [
-    'id' => 1,
-    'name' => 'Editing Apps',
-    'slug' => 'editing-apps',
-    'description' => 'Premium photo and video editing applications',
-    'image' => 'poster_edit.png'
-  ],
-  [
-    'id' => 2,
-    'name' => 'Mobile Legends',
-    'slug' => 'mobile-legends',
-    'description' => 'Top up diamonds for Mobile Legends',
-    'image' => 'poster_ml.png'
-  ],
-  [
-    'id' => 3,
-    'name' => 'Streaming Apps',
-    'slug' => 'streaming-apps',
-    'description' => 'Premium subscriptions for streaming services',
-    'image' => 'poster_streaming.png'
-  ],
-  [
-    'id' => 4,
-    'name' => 'Education Apps',
-    'slug' => 'education-apps',
-    'description' => 'Get all the tools to boost your productivity',
-    'image' => 'poster_edu.png'
-  ]
-];
+$categories = query("SELECT * FROM product_categories ORDER BY id DESC LIMIT 4");
 
-$products = [
-  [
-    'id' => 1,
-    'name' => 'Mobile Legends: 100 Diamonds',
-    'description' => 'Top up 100 diamonds for Mobile Legends',
-    'price' => 'Rp 25.000',
-    'image' => 'https://placehold.co/300x200'
-  ],
-  [
-    'id' => 2,
-    'name' => 'Adobe Lightroom Premium',
-    'description' => '1 month subscription for Adobe Lightroom',
-    'price' => 'Rp 75.000',
-    'image' => 'https://placehold.co/300x200'
-  ],
-  [
-    'id' => 3,
-    'name' => 'Netflix Premium 1 Month',
-    'description' => '1 month subscription for Netflix Premium',
-    'price' => 'Rp 120.000',
-    'image' => 'https://placehold.co/300x200'
-  ]
-];
+$products = query("
+  SELECT 
+    p.*, 
+    MIN(pd.price) AS starting_price
+  FROM products p
+  LEFT JOIN product_details pd ON pd.product_id = p.id
+  WHERE p.ready_stock = 1
+  GROUP BY p.id
+  ORDER BY RAND()
+  LIMIT 3
+");
 
 ?>
 
@@ -108,14 +67,14 @@ $products = [
     <div class="bg-blue-600 w-[50px] h-[3px] mb-8 mt-2"></div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       <?php foreach ($categories as $category): ?>
-        <a href="catalog.php?category=<?= $category['slug']; ?>" class="group">
-          <div class="bg-blue-50 rounded-lg overflow-hidden shadow-md transition-transform pb-4 group-hover:scale-105">
+        <a href="<?= site_url('/catalog?category=' . $category['slug']); ?>" class="group h-full">
+          <div class="bg-blue-50 rounded-lg overflow-hidden shadow-md transition-transform group-hover:scale-105 h-full flex flex-col">
             <div class="h-48 relative">
-              <img src="<?= asset('client/images/' . $category['image']) ?>" alt="<?= $category['name']; ?>" class="object-cover w-full h-full">
+              <img src="<?= public_path('uploads/' . $category['image']) ?>" alt="<?= $category['title']; ?>" class="object-cover w-full h-full">
             </div>
-            <div class="p-4">
-              <h3 class="text-lg font-medium text-gray-900"><?= $category['name']; ?></h3>
-              <p class="text-sm text-gray-600 mt-1"><?= $category['description']; ?></p>
+            <div class="p-4 flex-1 flex flex-col">
+              <h3 class="text-lg font-medium text-gray-900"><?= $category['title']; ?></h3>
+              <p class="text-sm text-gray-600 mt-3"><?= $category['description']; ?></p>
             </div>
           </div>
         </a>
@@ -131,25 +90,34 @@ $products = [
     <div class="bg-blue-600 w-[50px] h-[3px] mb-8 mt-2"></div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <?php foreach ($products as $product): ?>
-        <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
+        <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow flex flex-col h-[400px] relative">
           <div class="h-48 relative">
-            <img src="<?= $product['image']; ?>" alt="<?= $product['name']; ?>" class="object-cover w-full h-full">
+            <img src="https://placehold.co/300x200" alt="<?= $product['app_name']; ?>" class="object-cover w-full h-full">
           </div>
-          <div class="p-6">
-            <h3 class="text-lg font-medium text-gray-900"><?= $product['name']; ?></h3>
-            <p class="text-sm text-gray-600 mt-1"><?= $product['description']; ?></p>
-            <div class="mt-6 flex items-center justify-between">
-              <span class="text-blue-500 font-bold"><?= $product['price']; ?></span>
-              <button onclick="addToCart(<?= $product['id']; ?>)" class="bg-blue-500 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-600 transition-all active:scale-[0.9]">
-                <i class="fas fa-eye mr-2"></i>View Details
-              </button>
+          <div class="p-6 pb-24">
+            <h3 class="text-lg font-semibold text-gray-900"><?= $product['app_name']; ?></h3>
+
+            <!-- Truncate description in PHP and style with ellipsis -->
+            <p class="text-sm text-gray-600 mt-1 overflow-hidden line-clamp-3">
+              <?= strlen($product['description']) > 100 ? substr($product['description'], 0, 150) . '...' : $product['description']; ?>
+            </p>
+          </div>
+
+          <!-- Absolutely positioned price and button row -->
+          <div class="absolute bottom-0 left-0 right-0 p-6 flex items-center justify-between">
+            <div class="flex flex-col items-start">
+              <span class="text-blue-500 font-medium text-sm">Starting From</span>
+              <span class="text-lg font-semibold text-blue-500"><?= $product['starting_price'] !== null ? toRupiah($product['starting_price']) : '-' ?></span>
             </div>
+            <a href="<?= site_url('/details?id=' . $product['id']); ?>" class="bg-blue-500 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-600 transition-all active:scale-[0.9]">
+              <i class="fas fa-eye mr-2"></i>View Details
+            </a>
           </div>
         </div>
       <?php endforeach; ?>
     </div>
     <div class="mt-8 text-center">
-      <a href="catalog.php" class="inline-block border border-blue-500 text-blue-500 px-6 py-3 rounded-md font-medium hover:bg-blue-500 hover:text-white transition-all active:scale-[0.9]">
+      <a href="<?= site_url('/catalog'); ?>" class="inline-block border border-blue-500 text-blue-500 px-6 py-3 rounded-md font-medium hover:bg-blue-500 hover:text-white transition-all active:scale-[0.9]">
         View All Products <i class="ml-1 text-sm fas fa-angle-double-right"></i>
       </a>
     </div>
