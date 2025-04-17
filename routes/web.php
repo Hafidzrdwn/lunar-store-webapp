@@ -10,6 +10,7 @@ $routes = [
   '/catalog' => 'client/catalog.php',
   '/cart' => 'client/cart.php',
   '/orders' => 'client/orders.php',
+  '/details' => 'client/details.php',
 
 
   // ADMIN

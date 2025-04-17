@@ -11,6 +11,70 @@ function query($query)
   return $rows;
 }
 
+// Function to execute a query with prepared statements
+function stmt_query($sql, $params = [])
+{
+  global $conn;
+
+  if (empty($params)) {
+    // No parameters, use regular query
+    $result = mysqli_query($conn, $sql);
+    if (!$result) {
+      throw new Exception("Query failed: " . mysqli_error($conn));
+    }
+
+    $data = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+      $data[] = $row;
+    }
+    return $data;
+  } else {
+    // Use prepared statement
+    $stmt = mysqli_prepare($conn, $sql);
+    if (!$stmt) {
+      throw new Exception("Prepare failed: " . mysqli_error($conn));
+    }
+
+    // Determine parameter types
+    $types = '';
+    foreach ($params as $param) {
+      if (is_int($param)) {
+        $types .= 'i';
+      } elseif (is_float($param)) {
+        $types .= 'd';
+      } elseif (is_string($param)) {
+        $types .= 's';
+      } else {
+        $types .= 'b';
+      }
+    }
+
+    // Bind parameters
+    if (!empty($params)) {
+      $bindParams = array_merge([$stmt, $types], $params);
+      call_user_func_array('mysqli_stmt_bind_param', $bindParams);
+    }
+
+    // Execute and get results
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    $data = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+      $data[] = $row;
+    }
+
+    mysqli_stmt_close($stmt);
+    return $data;
+  }
+}
+
+function queryOne($sql, $params = [])
+{
+  $results = query($sql, $params);
+  return !empty($results) ? $results[0] : null;
+}
+
 function countData($table)
 {
   global $conn;
