@@ -1,3 +1,4 @@
 /node_modules
 /public/assets/client/css/style.css
 /.env
+/public/uploads/
