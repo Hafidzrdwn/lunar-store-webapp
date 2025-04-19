@@ -30,10 +30,10 @@ Premium Digital Products
             class="px-6 py-3 text-lg font-medium text-white transition-all border border-white rounded-md active:scale-[0.9] hover:bg-white/10">
             Explore More
           </a>
-          <button type="button"
+          <a href="<?= site_url('/catalog'); ?>"
             class="px-6 py-3 text-lg font-medium text-blue-500 transition-all bg-white rounded-md active:scale-[0.9] hover:bg-blue-50">
             Order Now <i class="ml-1 text-sm fas fa-angle-double-right"></i>
-          </button>
+          </a>
         </div>
       </div>
       <div class="mt-10 lg:mt-0 lg:w-1/2">
@@ -412,10 +412,10 @@ Premium Digital Products
     </div>
 
     <div class="mt-12 text-center">
-      <button
+      <a href="<?= site_url('/catalog'); ?>"
         class="px-6 py-3 text-lg font-medium text-white transition-all bg-blue-500 rounded-md hover:bg-blue-600 active:scale-[0.9]">
         View All Products <i class="ml-1 text-sm fas fa-angle-double-right"></i>
-      </button>
+      </a>
     </div>
   </div>
 </section>
@@ -948,7 +948,7 @@ Premium Digital Products
       </p>
       <div class="flex flex-col justify-center gap-4 sm:flex-row">
         <a
-          href="./login.html"
+          href="<?= site_url('/login'); ?>"
           class="inline-flex items-center px-6 py-3 text-lg font-medium text-blue-600 transition-all bg-white rounded-md hover:bg-blue-50 active:scale-[0.9]">
           Login and Order Now <i class="ml-2 fas fa-sign-in-alt"></i>
         </a>

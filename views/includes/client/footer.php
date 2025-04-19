@@ -11,7 +11,7 @@
         </p>
         <div class="flex items-center space-x-4">
           <a
-            href="#"
+            href="#" onclick="event.preventDefault(); alert('Coming Soon!');"
             class="text-gray-400 transition-colors hover:text-white">
             <svg
               class="w-6 h-6"
@@ -25,7 +25,7 @@
             </svg>
           </a>
           <a
-            href="#"
+            href="#" onclick="event.preventDefault(); alert('Coming Soon!');"
             class="text-gray-400 transition-colors hover:text-white">
             <svg
               class="w-5 h-5"
@@ -47,7 +47,8 @@
             </svg>
           </a>
           <a
-            href="#"
+            href="https://instagram.com/lunaryst"
+            target="_blank"
             class="text-gray-400 transition-colors hover:text-white">
             <svg
               class="w-6 h-6"
@@ -68,17 +69,17 @@
         <ul class="space-y-6">
           <li>
             <a
-              href="#"
+              href="<?= site_url('/catalog'); ?>"
               class="text-gray-400 transition-colors hover:text-white">Premium Apps</a>
           </li>
           <li>
             <a
-              href="#"
+              href="<?= site_url('/catalog'); ?>"
               class="text-gray-400 transition-colors hover:text-white">Top Up Mobile Legends</a>
           </li>
           <li>
             <a
-              href="#"
+              href="<?= site_url('/catalog'); ?>"
               class="text-gray-400 transition-colors hover:text-white">
               Education Premium Features
             </a>
@@ -96,7 +97,7 @@
           </li>
           <li>
             <a
-              href="#"
+              href="#" onclick="event.preventDefault(); alert('Coming Soon!');"
               class="text-gray-400 transition-colors hover:text-white">Blog</a>
           </li>
         </ul>
