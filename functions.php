@@ -30,7 +30,8 @@ function component($component, $data = [])
 
 function current_url()
 {
-  $url = str_replace('/lunar_store', '', $_SERVER['REQUEST_URI']);
+  $folder_name = basename(dirname($_SERVER['SCRIPT_NAME'])) . '/';
+  $url = str_replace($folder_name, '', $_SERVER['REQUEST_URI']);
   return parse_url($url, PHP_URL_PATH);
 }
 
